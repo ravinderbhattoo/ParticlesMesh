@@ -2,14 +2,14 @@
 This module contains standard shape point mesh functions.
 """
 
-export rectangular
+export rectangular, square
 
 """
-    rectangular(lattice::Array{Float64,1}, N::Array{Int64,1})::Array{Float64,2}
+    rectangular(lattice::Array{T,1}, N::Array{I,1})
 
 Create a rectangular point mesh.
 """
-function rectangular(lattice::Array{Float64,1}, N::Array{Int64,1})
+function rectangular(lattice::Array{T,1}, N::Array{I,1}) where {T<:Real, I<:Int}
     mesh = zeros(3,prod(N))
     a = 1
     for i in 1:N[1]
@@ -22,5 +22,16 @@ function rectangular(lattice::Array{Float64,1}, N::Array{Int64,1})
             end
         end
     end
-    return mesh, zeros(size(mesh)), copy(mesh), ones(prod(N))
+    return mesh
+end
+
+
+"""
+    square(lattice::T, N::I)
+
+Create a square point mesh.
+"""
+
+function square(lattice::T, N::I) where {T<:Real, I<:Int}
+    return rectangular([lattice, lattice, lattice], [N, N, N])
 end
